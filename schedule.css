@@ -1,0 +1,42 @@
+.course-table {
+    width: 60%;
+    max-width: 900px;
+    margin: 30px auto;
+    border-collapse: collapse;
+    font-family: 'Segoe UI', sans-serif;
+    table-layout: fixed; /* 關鍵：固定格子寬度，讓文字換行 */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.course-table th,
+.course-table td {
+    border: 1px solid #ccc;
+    padding: 12px;
+    text-align: center;
+    vertical-align: middle;
+    word-wrap: break-word; /* 讓文字在格子內換行 */
+    white-space: normal;   /* 禁止單行撐開格子 */
+    font-size: 0.95em;
+    line-height: 1.4;
+}
+
+.course-table thead {
+    background-color: #00796b;
+    color: #fff;
+}
+
+.course-table td[rowspan] {
+    background-color: #e0f7fa;
+    font-weight: bold;
+    color: #004d40;
+}
+
+/* 統一空格樣式 */
+.course-table td:empty {
+    background-color: #fafafa;
+}
+
+/* 可選：hover 效果 */
+.course-table td:hover {
+    background-color: #d0ece7;
+}

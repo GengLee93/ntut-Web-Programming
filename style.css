@@ -1,0 +1,213 @@
+/* Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #f5f5f5;
+    color: #333;
+}
+
+/* Navigation Bar */
+.navbar {
+    background-color: #004d40;
+    padding: 15px 30px;
+}
+
+.navbar ul {
+    list-style: none;
+    display: flex;
+    gap: 30px;
+}
+
+.navbar li {
+    display: inline;
+}
+
+.navbar a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+    padding: 8px 12px;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+.navbar a:hover {
+    background-color: #00695c;
+}
+
+.navbar a.active {
+    background-color: #00796b;
+}
+
+/* Layout */
+.layout {
+    display: flex;
+    min-height: calc(100vh - 60px); /* subtract nav height */
+}
+
+/* Hero Section */
+.hero {
+    width: 25%;
+    background: linear-gradient(to bottom, #e0f7fa, #ffffff);
+    padding: 30px 20px;
+    border-right: 1px solid #ccc;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.avatar {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+.avatar img {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    transition: opacity 0.4s ease;
+}
+
+/* 第一張圖片：預設全顯示 */
+.first-avatar {
+    z-index: 1;
+    opacity: 1;
+}
+
+.avatar:hover .first-avatar {
+    filter: blur(2px); /* 模糊程度可調整，例如 2px ~ 8px */
+}
+
+/* 新增覆蓋層樣式 */
+.avatar-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 121, 107, 0.0); /* 素色底，可調整透明度 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    border-radius: 50%;
+    z-index: 2;
+}
+
+.avatar:hover .avatar-overlay {
+    opacity: 1;
+}
+
+.overlay-text {
+    color: #53a6b1;
+    font-weight: bold;
+    font-size: 1em;
+    text-align: center;
+}
+
+.avatar-link-top {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;       /* 控制點擊區域寬度 */
+    height: 30px;      /* 控制點擊區域高度 */
+    z-index: 3;
+    cursor: pointer;
+    text-decoration: none;
+    background-color: transparent;
+}
+
+.image-comparison {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+}
+
+.image-box {
+    text-align: center;
+}
+
+.image-box img {
+    width: 300px;
+    border: 6px solid #333;
+    border-radius: 4px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease;
+}
+
+.image-box img:hover {
+    transform: scale(1.05);
+}
+
+.image-box .label {
+    margin-top: 8px;
+    font-weight: bold;
+    color: #00796b;
+}
+
+/* 灰階濾鏡 */
+.grayscale {
+    filter: grayscale(100%);
+}
+
+.intro h1 {
+    font-size: 1.8em;
+    color: #00796b;
+    text-align: center;
+}
+
+.intro p {
+    margin: 8px 0;
+    text-align: center;
+}
+
+.intro a {
+    color: #0288d1;
+    text-decoration: none;
+}
+
+.intro a:hover {
+    text-decoration: underline;
+}
+
+/* Content Section */
+.content {
+    flex: 1;
+    padding: 40px;
+}
+
+.content section {
+    margin-bottom: 30px;
+}
+
+h2 {
+    color: #00695c;
+    margin-bottom: 10px;
+}
+
+ul, ol {
+    padding-left: 20px;
+}
+
+footer {
+    text-align: center;
+    padding: 20px;
+    font-size: 0.9em;
+    color: #777;
+    background-color: #eee;
+}
