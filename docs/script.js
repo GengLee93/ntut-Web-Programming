@@ -1,5 +1,5 @@
 // javascript
-// Web programming/root/script.js
+// Web programming/docs/script.js
 // 修正後的整份 JS：Table Styler + Dual Model Switcher
 (function () {
     // ==================== Table Styler ====================
