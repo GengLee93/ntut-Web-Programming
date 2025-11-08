@@ -1,0 +1,154 @@
+/* 上方區塊：模特展示 + 商品資訊 */
+.showcase-top {
+    display: flex;
+    gap: 60px;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    margin-bottom: 60px;
+}
+
+.model-gallery {
+    display: flex;
+    position: relative;
+    gap: 16px;
+    flex: 1 1 60%;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.model-frame {
+    flex: 1 1 40%;
+    max-width: 420px;
+    text-align: center;
+    aspect-ratio:  3 / 4;
+}
+
+.model-frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: top center;
+    border: none;
+}
+
+.model-caption {
+    margin-top: 10px;
+    font-size: 14px;
+    font-family: 'spacemono', monospace;
+    color: #666;
+    font-style: italic;
+    letter-spacing: 1px;
+}
+
+.nav-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: transparent;
+    color: #000;
+    border: none;
+    font-size: 12px;
+    font-family: 'spacemono', monospace;
+    padding: 10px 20px;
+    cursor: pointer;
+    z-index: 2;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.nav-btn.left {
+    left: 0;
+}
+
+.nav-btn.right {
+    right: 0;
+}
+
+.nav-btn:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.image-counter {
+    margin-top: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    font-family: 'spacemono', monospace;
+}
+
+/* 商品資訊區塊 */
+.product-info {
+    flex: 1 1 35%;
+    max-width: 400px;
+}
+
+.product-details li {
+    margin-bottom: 10px;
+    font-size: 11px;
+    font-family: 'spacemono', monospace;
+    color: #333;
+}
+
+.color-btn {
+    display: inline-block;
+    width: 36px;          /* 按鈕寬度 */
+    height: 10px;         /* 按鈕高度 */
+    padding: 6px;
+    margin-right: 8px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    vertical-align: middle;
+}
+
+.table-wrapper {
+    overflow-x: auto;
+    margin-top: 20px;
+    min-width: 0;
+}
+
+/* 使用時請保留下面區塊，註解或移除選項 B */
+.size-guide {
+    max-width: none;   /* 取消固定 max-width，讓容器可以伸展或依父容器寬度 */
+    width: 100%;       /* 讓容器佔滿可用空間 */
+}
+
+/* 欄位平均分配、允許換行，避免固定 nowrap */
+#statsTable {
+    width: 100%;          /* 填滿容器 */
+    table-layout: fixed;  /* 平均分配欄寬，避免內容推擠造成不自然捲動 */
+    border-collapse: separate;
+    border-spacing: 1px;
+}
+#statsTable th,
+#statsTable td {
+    white-space: normal;  /* 允許換行 */
+    overflow-wrap: anywhere;
+    word-break: break-word;
+    box-sizing: border-box;     /* 讓 padding 不造成寬度外溢 */
+    vertical-align: middle;
+    padding: 12px 15px;
+}
+
+/* 將第 3 欄（XXS）起的欄位文字置中（Ref / Measurement 保持靠左） */
+#statsTable th:nth-child(n+3),
+#statsTable td:nth-child(n+3) {
+    text-align: center;
+}
+
+/* 保留前兩欄靠左（如果想全部居中可移除） */
+#statsTable th:nth-child(-n+2),
+#statsTable td:nth-child(-n+2) {
+    text-align: left;
+}
+
+/* 保留原有手機友善行為：窄螢幕可恢復較大間距與堆疊 */
+@media (max-width: 900px) {
+    .model-gallery {
+        gap: 24px;
+    }
+    .model-frame {
+        flex: 1 1 45%;
+        max-width: 500px;
+    }
+}

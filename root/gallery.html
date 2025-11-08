@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Gallery - entire studios</title>
+	<link rel="stylesheet" href="style.css" />
+</head>
+<style>
+    /* 產品卡（參考 sidebar avatar 行為） */
+    .product-avatar {
+        position: relative;
+        width: 420px;
+        max-width: 100%;
+        overflow: hidden;
+        border-radius: 6px;
+        background: #fff;
+        box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+    }
+
+    /* 讓容器保持原圖比例（700x933 範例）*/
+    .product-avatar::before{
+        content: "";
+        display: block;
+        padding-top: calc(933 / 700 * 100%); /* 高度/寬度 比例 */
+    }
+
+    /* 兩張圖都絕對定位以完全覆蓋 */
+    .product-avatar img {
+        position: absolute;
+        top: 0; left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        transition: opacity .32s ease, transform .42s cubic-bezier(.2,.8,.2,1);
+        border-radius: 6px;
+    }
+
+    /* 第一張（帶 usemap、可點擊） */
+    .product-avatar .first-avatar {
+        z-index: 1;
+        opacity: 1;
+        pointer-events: auto; /* 保留點擊/地圖互動 */
+        transform: scale(1);
+    }
+
+    /* 第二張（上層視覺，但不攔截點擊） */
+    .product-avatar .second-avatar {
+        z-index: 2;
+        opacity: 0;
+        pointer-events: none; /* 點擊穿透到底下的第一張 */
+        transform: scale(1.02);
+    }
+
+    /* hover / touch-active 行為 */
+    .product-avatar:hover .first-avatar,
+    .product-avatar.touch-active .first-avatar {
+        opacity: 0.25; /* 第一張淡化為背景 */
+        transform: scale(1.01);
+    }
+
+    .product-avatar:hover .second-avatar,
+    .product-avatar.touch-active .second-avatar {
+        opacity: 1; /* 第二張完整顯示 */
+        transform: scale(1.06);
+    }
+
+    /* 底部文字框（選用） */
+    .product-avatar .caption {
+        position: absolute;
+        left: 0; right: 0; bottom: 0;
+        height: 15%;
+        min-height: 44px;
+        background: rgba(0,0,0,0.5);
+        color: #fff;
+        display: flex; align-items: center; justify-content: center;
+        z-index: 3;
+        transform: translateY(100%);
+        transition: transform .32s ease, opacity .32s ease;
+        opacity: 0;
+    }
+    .product-avatar:hover .caption,
+    .product-avatar.touch-active .caption {
+        transform: translateY(0);
+        opacity: 1;
+    }
+
+    /* 行動裝置友善 */
+    @media (hover: none) {
+        .product-avatar { cursor: pointer; width: 90vw; }
+    }
+</style>
+<body>
+
+<!-- 導航列佔位符 -->
+<div id="navbar-placeholder"></div>
+<div class="layout">
+	<main class="content">
+		<section class="gallery-intro">
+			<h2>Product Gallery</h2>
+			<p>
+				Explore our signature pieces that define the entire studios aesthetic.
+				Each garment is designed with meticulous attention to detail, combining
+				luxury materials with accessible pricing.
+			</p>
+		</section>
+
+		<section class="product-showcase">
+			<figure class="product-avatar">
+				<map name="hoodie-map">
+					<!-- 調整 coords 到正確位置 -->
+					<area shape="poly" coords="150,200,250,200,280,350,120,350" href="showcase.html" alt="View details" />
+				</map>
+
+				<!-- 第一張：保留 usemap 與互動 -->
+				<img
+						class="first-avatar"
+						src="https://cdn.meideinthe.cloud/entirestudios.com/content/2-product/727-raglan-bomber-black-suede/1-campaign-drop-10/esu-s25-13011-bs-raglan-bomber-1-front.jpg"
+						usemap="#hoodie-map"
+						alt="Raglan Bomber - Front"
+						width="700" height="933"
+				/>
+
+				<!-- 第二張：專案相對路徑（已放到專案內） -->
+				<img
+						class="second-avatar"
+						src="Assest/entire-studios-raglan-bomber-black-suede-1f-removebg-preview.png"
+						alt="Raglan Detail Overlay"
+						aria-hidden="true"
+						width="700" height="933"
+				/>
+
+				<figcaption class="caption">Raglan Bomber — Tailored fit, premium suede</figcaption>
+			</figure>
+		</section>
+
+		<section class="design-notes">
+			<h2>Design Philosophy</h2>
+			<p>
+				Our approach to design is rooted in three principles: simplicity, quality, and versatility.
+				Every piece in our collection is designed to be a wardrobe staple—garments you'll reach
+				for season after season, year after year.
+			</p>
+			<p>
+				The monochrome comparisons above illustrate our commitment to timeless design.
+				Even without color, the silhouettes and construction speak for themselves.
+				This is intentional—great design doesn't need embellishment.
+			</p>
+		</section>
+	</main>
+</div>
+
+<!-- 頁尾佔位符 -->
+<div id="footer-placeholder"></div>
+
+<script src="components.js"></script>
+<script>
+    /* 維持你原本的 touch 支援（切換 touch-active）*/
+    document.addEventListener('click', function (e) {
+        const card = e.target.closest('.product-avatar');
+        if (!card) return;
+        if (card.classList.contains('touch-active')) {
+            card.classList.remove('touch-active');
+        } else {
+            document.querySelectorAll('.product-avatar.touch-active').forEach(c => c.classList.remove('touch-active'));
+            card.classList.add('touch-active');
+        }
+    });
+    document.addEventListener('click', function (e) {
+        if (!e.target.closest('.product-avatar')) {
+            document.querySelectorAll('.product-avatar.touch-active').forEach(c => c.classList.remove('touch-active'));
+        }
+    });
+</script>
+</body>
+</html>

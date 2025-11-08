@@ -1,84 +1,186 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="zh">
 <head>
-	<meta charset="UTF-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>Profile</title>
-	<link rel="stylesheet" href="style.css" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Dream Space Canvas</title>
+  <style>
+    html,body { height:100%; margin:0; background:#000; display:flex; align-items:center; justify-content:center; }
+    canvas { width:100vw; height:100vh; display:block; cursor:pointer; } /* 點擊提示 */
+    .note { position:fixed; right:12px; bottom:12px; color:#ddd; font-family:system-ui; font-size:12px; opacity:.7; }
+    /* 淡出效果（點擊後套用）*/
+    body.fading { transition: opacity .42s ease; opacity: 0; }
+  </style>
 </head>
 <body>
-<nav class="navbar">
-	<ul>
-		<li><a class="active" href="index.html">Home</a></li>
-		<li><a href="news.html">News</a></li>
-		<li><a href="contact.html">Contact</a></li>
-		<li><a href="schedule.html">Schedule</a></li>
-		<li><a href="about.html">About</a></li>
-	</ul>
-</nav>
+<canvas id="dream"></canvas>
+<div class="note">Dream Space — Canvas</div>
+<script>
+  (function(){
+    const HOMEPAGE = 'home.html'; // 若首頁為其他檔名，請修改此處
+    const canvas = document.getElementById('dream');
+    const ctx = canvas.getContext('2d');
 
-<div class="layout">
-	<aside class="hero">
-		<div class="avatar">
-			<a href="https://example.com" target="_blank" class="avatar-link-top" title="前往連結"></a>
+    function resize() {
+      const dpr = window.devicePixelRatio || 1;
+      canvas.width = innerWidth * dpr;
+      canvas.height = innerHeight * dpr;
+      canvas.style.width = innerWidth + 'px';
+      canvas.style.height = innerHeight + 'px';
+      ctx.setTransform(dpr,0,0,dpr,0,0);
+    }
+    addEventListener('resize', resize);
+    resize();
 
-			<img src="https://th.bing.com/th/id/R.045d8fbe45c3d23e40cea3a91911274e?rik=7z6T2X1UNiwjqQ&pid=ImgRaw&r=0"
-				 class="first-avatar"
-				 alt="Homer Simpson with donut" />
-			<div class="avatar-overlay">
-				<span class="overlay-text">Hello Homer!</span>
-			</div>
-		</div>
-		<div class="intro">
-			<h1>Geng Lee</h1>
-			<p>National Taipei University of Technology</p>
-			<p>Email: <a href="mailto:111590046@ntut.org.tw">111590046@ntut.org.tw</a></p>
-			<p>Website: <a href="https://www-en.ntut.edu.tw/" target="_blank">www-en.ntut.edu.tw</a></p>
-		</div>
-	</aside>
+    // 星星陣列
+    const stars = Array.from({length:120}, () => ({
+      x: Math.random()*innerWidth,
+      y: Math.random()*innerHeight*0.6,
+      r: Math.random()*1.6 + 0.3,
+      tw: Math.random()*Math.PI*2,
+      speed: 0.01 + Math.random()*0.03
+    }));
 
-	<main class="content">
-		<section class="bio">
-			<h2>Personal Introduction</h2>
-			<p>
-				Nicole Ardoin is the Sykes Family Director of the Emmett Interdisciplinary Program in Environment and Resources, Associate Professor in the Graduate School of Education, and Senior Fellow in the Woods Institute for the Environment. Her research explores social-ecological systems, environmental education, and decision-making processes.
-			</p>
-		</section>
+    let t = 0;
 
-		<section class="interests">
-			<h2>Research Interests</h2>
-			<ul>
-				<li>Civic Education</li>
-				<li>Collaborative Learning</li>
-				<li>Environmental Education</li>
-				<li>Gender Issues</li>
-				<li>Lifelong Learning</li>
-				<li>Sociology</li>
-			</ul>
-		</section>
+    function drawBackground() {
+      // 漸層天空
+      const grad = ctx.createLinearGradient(0,0,0,innerHeight);
+      grad.addColorStop(0, '#071428');   // 深藍近黑
+      grad.addColorStop(0.4, '#0b2340'); // 深藍
+      grad.addColorStop(1, '#08121a');   // 底部更深
+      ctx.fillStyle = grad;
+      ctx.fillRect(0,0,innerWidth,innerHeight);
 
-		<section class="publications">
-			<h2>Recent Publications</h2>
-			<ol>
-				<li>
-					Selby, S. T., Cruz, A. R., Ardoin, N. M., & Durham, W. H. (2020).
-					<em>Community-based conservation: Environmental leadership for youth in rural Costa Rica.</em>
-				</li>
-				<li>
-					Talapooru, L. M., Busk, P. L., Heimlich, J. E., & Ardoin, N. M. (2020).
-					<em>Children’s connection to nature: Implications for environmental education and stewardship.</em>
-				</li>
-				<li>
-					Ardoin, N. M., Bowers, A. W., Roth, N. M., & Bruas, J. (2020).
-					<em>Environmental education and civic engagement: Exploring pathways to sustainability.</em>
-				</li>
-			</ol>
-		</section>
-	</main>
-</div>
+      // 微弱雲層 (使用透明漸層)
+      ctx.globalAlpha = 0.06;
+      for(let i=0;i<6;i++){
+        ctx.beginPath();
+        const cx = (i/6)*innerWidth + (Math.sin(t*0.2+i)*80);
+        const cy = innerHeight*0.25 + Math.cos(i+t*0.15)*30;
+        const rx = innerWidth*0.6;
+        const ry = 120;
+        ctx.ellipse(cx, cy, rx*(0.18+i*0.02), ry, 0, 0, Math.PI*2);
+        ctx.fillStyle = '#b7d6ff';
+        ctx.fill();
+      }
+      ctx.globalAlpha = 1;
+    }
 
-	<footer>
-		<p>&copy; 2025 Nicole Ardoin. All rights reserved.</p>
-</footer>
+    function drawMoon() {
+      // 月亮（圓形 + 新月遮掩）- 圓形
+      const mx = innerWidth*0.78;
+      const my = innerHeight*0.22;
+      const mr = Math.min(innerWidth, innerHeight)*0.07;
+      // 光暈
+      const glow = ctx.createRadialGradient(mx,my,mr*0.2, mx,my,mr*2.4);
+      glow.addColorStop(0, 'rgba(255,245,220,0.9)');
+      glow.addColorStop(0.5, 'rgba(255,245,220,0.15)');
+      glow.addColorStop(1, 'rgba(255,245,220,0)');
+      ctx.fillStyle = glow;
+      ctx.beginPath();
+      ctx.arc(mx,my,mr*2.4,0,Math.PI*2);
+      ctx.fill();
+
+      // 實心月亮
+      ctx.fillStyle = '#fff8e6';
+      ctx.beginPath();
+      ctx.arc(mx,my,mr,0,Math.PI*2);
+      ctx.fill();
+
+      // 新月遮掩（用全透明混合）
+      ctx.globalCompositeOperation = 'destination-out';
+      ctx.beginPath();
+      ctx.arc(mx - mr*0.5, my - mr*0.05, mr*0.95, 0, Math.PI*2);
+      ctx.fill();
+      ctx.globalCompositeOperation = 'source-over';
+    }
+
+    function drawStars() {
+      for (let s of stars) {
+        s.tw += s.speed * (0.4 + Math.sin(t*0.3)*0.6);
+        const alpha = 0.35 + 0.65 * Math.abs(Math.sin(s.tw));
+        ctx.fillStyle = `rgba(255,255,255,${alpha})`;
+        ctx.beginPath();
+        ctx.arc(s.x + Math.sin(t*0.2 + s.x*0.001)*6, s.y + Math.cos(t*0.3 + s.y*0.001)*4, s.r, 0, Math.PI*2);
+        ctx.fill();
+      }
+    }
+
+    function drawShapes() {
+      // 弧形山丘 (arc)
+      ctx.fillStyle = '#0f2a2a';
+      ctx.beginPath();
+      ctx.moveTo(0, innerHeight*0.74);
+      ctx.quadraticCurveTo(innerWidth*0.5, innerHeight*0.52, innerWidth, innerHeight*0.74);
+      ctx.lineTo(innerWidth, innerHeight);
+      ctx.lineTo(0, innerHeight);
+      ctx.closePath();
+      ctx.fill();
+
+      // 城市線條 - 多個矩形 (rectangles)，至少三個
+      const baseY = innerHeight*0.74;
+      const widths = [40,28,60,30,48,36,22];
+      let x = innerWidth*0.08;
+      for (let i=0;i<widths.length;i++){
+        const w = widths[i];
+        const h = 60 + Math.sin(i*0.7 + t*0.6)*20 + (i%2?120:180);
+        ctx.fillStyle = i%2 ? '#0b1a1a' : '#0e2224';
+        ctx.fillRect(x, baseY - h, w, h);
+        // 建築小窗
+        ctx.fillStyle = 'rgba(255,230,180,0.06)';
+        for(let ry= baseY - h + 12; ry < baseY - 6; ry+=18){
+          for(let rx = x + 6; rx < x + w -6; rx += 14){
+            if (Math.random() > 0.7) {
+              ctx.fillRect(rx, ry, 6, 8);
+            }
+          }
+        }
+        x += w + 12;
+      }
+
+      // 大圓裝飾（circle）在前方作層次
+      ctx.save();
+      ctx.globalAlpha = 0.08;
+      ctx.fillStyle = '#dff3ff';
+      ctx.beginPath();
+      ctx.arc(innerWidth*0.3, innerHeight*0.38, Math.min(innerWidth,innerHeight)*0.18, 0, Math.PI*2);
+      ctx.fill();
+      ctx.restore();
+    }
+
+    function drawTitle() {
+      ctx.save();
+      ctx.font = '600 20px system-ui, Arial';
+      ctx.textAlign = 'center';
+      ctx.fillStyle = 'rgba(255,255,255,0.92)';
+      ctx.fillText('', innerWidth*0.5, innerHeight*0.92);
+      ctx.restore();
+    }
+
+    function frame() {
+      t += 0.016;
+      ctx.clearRect(0,0,innerWidth,innerHeight);
+      drawBackground();
+      drawStars();
+      drawMoon();
+      drawShapes();
+      drawTitle();
+      requestAnimationFrame(frame);
+    }
+
+    requestAnimationFrame(frame);
+
+    // 點擊任意處導向首頁（帶淡出效果）
+    function goHome(e){
+      // 若按下 Ctrl/Meta/中鍵，允許預設行為（例如新分頁）
+      if (e.ctrlKey || e.metaKey || e.button === 1) return;
+      document.documentElement.classList.add('fading'); // 可選改成 body
+      setTimeout(() => { location.href = HOMEPAGE; }, 420);
+    }
+    // 綁在 canvas 上（也可綁在 document.body）
+    canvas.addEventListener('click', goHome, {passive:true});
+  })();
+</script>
 </body>
 </html>

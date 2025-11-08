@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Showcase - entire studios</title>
+	<link rel="stylesheet" href="style.css" />
+	<link rel="stylesheet" href="showcase.css" />
+</head>
+<body>
+
+<!-- 導航列佔位符 -->
+<div id="navbar-placeholder"></div>
+
+<div class="layout">
+	<main class="content">
+
+		<!-- 雙模特展示區 + 商品資訊 -->
+		<section class="showcase-top">
+			<div class="model-gallery">
+				<button class="nav-btn left" id="prevBtn">← Previous</button>
+
+				<div class="model-frame">
+					<img id="ayakImage" src="" alt="Ayak 模特照" />
+					<div class="model-caption">Ayak — 6'0 | Size M</div>
+				</div>
+
+				<div class="model-frame">
+					<img id="ballaImage" src="" alt="Balla 模特照" />
+					<div class="model-caption">Balla — 6'3 | Size M</div>
+				</div>
+
+				<button class="nav-btn right" id="nextBtn">Next →</button>
+			</div>
+
+			<div class="product-info">
+				<h3>RAGLAN BOMBER BLACK SUEDE</h3>
+				<ul class="product-details">
+					<li><strong>Material:</strong> Premium water-resistant nylon shell</li>
+					<li><strong>Insulation:</strong> High-quality synthetic down fill</li>
+					<li><strong>Fit:</strong> Oversized, contemporary silhouette</li>
+					<li><strong>Features:</strong> Zippered pockets, adjustable hood, ribbed cuffs</li>
+					<li><strong>Care:</strong> Machine washable, tumble dry low</li>
+					<li><strong>Price:</strong> $1,200.00 USD</li>
+				</ul>
+				<div class="image-counter" id="imageCounter"></div>
+			</div>
+		</section>
+
+		<!-- 尺寸表區 -->
+		<section class="size-guide">
+			<h3>Size Guide</h3>
+			<div class="controls">
+				<div class="control-group">
+					<label>Table width：</label>
+					<button class="width-btn" data-width="200px">200px</button>
+					<button class="width-btn" data-width="500px">500px</button>
+				</div>
+
+				<div class="control-group">
+					<label>Border & spacing：</label>
+					<!-- 三個按鈕，同步改變邊框寬與格子間距 -->
+					<button class="spacing-size-btn" data-px="1">1px</button>
+					<button class="spacing-size-btn" data-px="10">10px</button>
+					<button class="spacing-size-btn" data-px="20">20px</button>
+				</div>
+
+				<div class="control-group">
+					<label>Background color：</label>
+					<button class="color-btn" data-color="#f5f5f0"></button>
+					<button class="color-btn" data-color="#eaeaea"></button>
+				</div>
+
+				<button id="resetTable" class="reset-btn">Reset Table</button>
+			</div>
+
+			<div class="table-wrapper">
+				<table id="statsTable">
+					<thead>
+					<tr>
+						<th>Ref</th>
+						<th>Measurement (cm)</th>
+						<th>XXS</th>
+						<th>XS</th>
+						<th>S</th>
+						<th>M</th>
+						<th>L</th>
+						<th>XL</th>
+						<th>XXL</th>
+					</tr>
+					</thead>
+					<tbody>
+					<tr><td>A</td><td>Total Length</td><td>57</td><td>61</td><td>63.5</td><td>66</td><td>68.5</td><td>71</td><td>75</td></tr>
+					<tr><td>B</td><td>Chest Circumference</td><td>121</td><td>128</td><td>135</td><td>138</td><td>141</td><td>150</td><td>160</td></tr>
+					<tr><td>C</td><td>Sleeve Length</td><td>88</td><td>88.5</td><td>89</td><td>91</td><td>92</td><td>94.5</td><td>96</td></tr>
+					</tbody>
+				</table>
+			</div>
+		</section>
+
+	</main>
+</div>
+
+<!-- 頁尾佔位符 -->
+<div id="footer-placeholder"></div>
+
+<script src="components.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
